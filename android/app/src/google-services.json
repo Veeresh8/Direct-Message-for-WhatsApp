@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "512862042453",
+    "project_id": "direct-message-139da",
+    "storage_bucket": "direct-message-139da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512862042453:android:3bbc8620df63710f8057dc",
+        "android_client_info": {
+          "package_name": "com.parallel.studios.direct_message_for_whatsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512862042453-1g1pb502hbabosg6im8ffu2s9b4k4b1u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGo9-vMTd_l8uH_2dIBhOf-a4hhepjV84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512862042453-1g1pb502hbabosg6im8ffu2s9b4k4b1u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
