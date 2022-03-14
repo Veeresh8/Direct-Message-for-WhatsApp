@@ -1,7 +1,9 @@
+import 'package:country_codes/country_codes.dart';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_picker_dialog.dart';
 import 'package:country_pickers/utils/utils.dart';
 import 'package:direct_message_for_whatsapp/dashboard_model.dart';
+import 'package:direct_message_for_whatsapp/locale_config.dart';
 import 'package:direct_message_for_whatsapp/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +16,16 @@ class CountryPicker extends StatefulWidget {
 }
 
 class _CountryPickerState extends State<CountryPicker> {
-  Country _selectedCountry = CountryPickerUtils.getCountryByPhoneCode('91');
+
+  late Country _selectedCountry;
+
+  @override
+  void initState() {
+    super.initState();
+    var dialCode = LocaleConfig.getLocale().dialCode?.replaceAll("+", "");
+    _selectedCountry = CountryPickerUtils.getCountryByPhoneCode(dialCode ?? "91");
+    Provider.of<DashboardModel>(context, listen: false).updateSelectedCountry(LocaleConfig.getLocale().dialCode ?? "91");
+  }
 
   @override
   Widget build(BuildContext context) {

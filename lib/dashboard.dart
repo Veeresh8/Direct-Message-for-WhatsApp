@@ -46,8 +46,33 @@ class _DashboardState extends State<Dashboard> {
                       style: buildMontserrat(
                           context,
                           Colors.black,
-                          FontWeight.bold,
+                          FontWeight.normal,
                           Theme.of(context).textTheme.headline6)),
+                ),
+              ),
+              Transform.translate(
+                offset: const Offset(80, 180),
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: GestureDetector(
+                    onTap: () {
+                      launchHelp();
+                    },
+                    child: Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        const Icon(Icons.play_circle_filled_sharp, color: Colors.black,),
+                        const SizedBox(width: 5),
+                        Text('How it works?',
+                            textAlign: TextAlign.center,
+                            style: buildMontserratUnderline(
+                                context,
+                                Colors.black,
+                                FontWeight.bold,
+                                Theme.of(context).textTheme.headline6)),
+                      ],
+                    ),
+                  ),
                 ),
               ),
               Transform.translate(
@@ -55,7 +80,7 @@ class _DashboardState extends State<Dashboard> {
                 child: ElevatedButton.icon(
                   style: buildPrimaryButton(),
                   icon: const Icon(Icons.send, color: Colors.white),
-                  label: Text('Send Message',
+                  label: Text('Open in WhatsApp',
                       style: buildMontserrat(
                           context,
                           Colors.white,
@@ -67,7 +92,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               Transform.translate(
-                offset: const Offset(24, 200),
+                offset: const Offset(24, 250),
                 child: Column(
                   children: [
                     SizedBox(
@@ -178,5 +203,11 @@ class _DashboardState extends State<Dashboard> {
             ),
           );
         });
+  }
+
+  void launchHelp() async {
+    if (!await launch("https://www.youtube.com/watch?v=j3HiVidc5IQ")) {
+        createAlertDialog(context, "Failed to open app help hint!");
+    }
   }
 }

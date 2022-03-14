@@ -32,3 +32,13 @@ TextStyle buildMontserrat(
   return GoogleFonts.montserrat(
       textStyle: textStyle, fontWeight: fontWeight, color: color);
 }
+
+TextStyle buildMontserratUnderline(
+    BuildContext context,
+    Color color,
+    FontWeight fontWeight,
+    TextStyle? textStyle,
+    ) {
+  return GoogleFonts.montserrat(
+      textStyle: textStyle, fontWeight: fontWeight, color: color, decoration: TextDecoration.underline);
+}

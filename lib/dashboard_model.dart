@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class DashboardModel extends ChangeNotifier {
-  var selectedCountryISO = "91";
+  var selectedCountryISO = "";
   var suggestedMessage = "";
   var numberInput = "";
 
