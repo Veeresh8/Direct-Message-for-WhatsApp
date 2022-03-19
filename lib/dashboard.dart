@@ -29,12 +29,11 @@ class _DashboardState extends State<Dashboard> {
           color: Colors.white,
           child: Stack(
             children: [
-              Align(
+              const Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: const EdgeInsets.all(60),
-                  child: Image.asset('assets/images/intro.png',
-                      width: 50, height: 50),
+                  padding: EdgeInsets.all(60),
+                  child: Icon(Icons.double_arrow, color: Colors.black, size: 50),
                 ),
               ),
               Transform.translate(
