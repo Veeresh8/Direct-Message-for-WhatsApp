@@ -29,6 +29,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  mixpanel_flutter: ^2.1.1
   shared_preferences: ^2.2.2
   flutter_native_splash: ^2.0.5
   google_fonts: ^4.0.1

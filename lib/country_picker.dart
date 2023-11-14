@@ -45,7 +45,7 @@ class _CountryPickerState extends State<CountryPicker> {
     var countryByIsoCode = CountryPickerUtils.getCountryByIsoCode(_selectedCountry.isoCode);
 
     Provider.of<DashboardModel>(context, listen: false)
-        .updateSelectedCountry(countryByIsoCode.phoneCode);
+        .updateSelectedCountry(countryByIsoCode.phoneCode, countryByIsoCode.name);
   }
 
   @override
@@ -79,7 +79,7 @@ class _CountryPickerState extends State<CountryPicker> {
                     _selectedCountry = country;
                     addStringToSF(country.isoCode.replaceAll("+", ""));
                     Provider.of<DashboardModel>(context, listen: false)
-                        .updateSelectedCountry(country.phoneCode);
+                        .updateSelectedCountry(country.phoneCode, country.name);
                   });
                 }
               },

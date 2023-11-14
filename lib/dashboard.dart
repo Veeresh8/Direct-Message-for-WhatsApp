@@ -4,10 +4,11 @@ import 'package:direct_message_for_whatsapp/country_picker.dart';
 import 'package:direct_message_for_whatsapp/dashboard_model.dart';
 import 'package:direct_message_for_whatsapp/number_input.dart';
 import 'package:direct_message_for_whatsapp/styles.dart';
-import 'package:direct_message_for_whatsapp/suggestion_chips.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'main.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -157,11 +158,8 @@ class _DashboardState extends State<Dashboard> {
       createAlertDialog(context, "Failed to send message");
     }
 
-    // await FirebaseAnalytics.instance.logEvent(name: "message_event", parameters: {
-    //   "number": number,
-    //   "message": message,
-    //   "country": countryISO
-    // });
+    MixpanelManager.instance.track("Opened WhatsApp: $number");
+
   }
 
   void createAlertDialog(BuildContext context, String message) {
@@ -200,6 +198,8 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void launchHelp() async {
+    MixpanelManager.instance.track("Opened help hint");
+
     if (!await launch("https://www.youtube.com/watch?v=j3HiVidc5IQ")) {
         createAlertDialog(context, "Failed to open app help hint!");
     }

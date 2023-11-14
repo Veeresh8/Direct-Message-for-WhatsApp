@@ -1,4 +1,4 @@
-import 'package:country_pickers/utils/utils.dart';
+import 'package:direct_message_for_whatsapp/main.dart';
 import 'package:flutter/cupertino.dart';
 
 class DashboardModel extends ChangeNotifier {
@@ -11,12 +11,15 @@ class DashboardModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateSelectedCountry(String countryISO) {
+  void updateSelectedCountry(String countryISO, String name) {
     if (!countryISO.startsWith("+")) {
       countryISO = "+$countryISO";
     }
 
     selectedCountryISO = countryISO;
+
+    MixpanelManager.instance.track("Country: $selectedCountryISO | $name");
+
     notifyListeners();
   }
 
