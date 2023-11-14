@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:direct_message_for_whatsapp/dashboard_model.dart';
 import 'package:direct_message_for_whatsapp/styles.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,8 +16,7 @@ class _ChipsWidgetState extends State<ChipsWidget> {
   var customSuggestion = "";
 
   List<String> suggestions = [
-    'What\'s up',
-    'Hello!',
+    'Hello',
     'How are you?',
     'Be right back',
   ];
@@ -39,22 +37,6 @@ class _ChipsWidgetState extends State<ChipsWidget> {
 
   List<Widget> buildSuggestions(BuildContext context) {
     return List<Widget>.generate(suggestions.length, (index) {
-      if (index == 0) {
-        return ActionChip(
-            elevation: 3,
-            padding: const EdgeInsets.all(4),
-            labelPadding: const EdgeInsets.all(3),
-            clipBehavior: Clip.antiAlias,
-            backgroundColor: Colors.white,
-            avatar: const Icon(Icons.add, color: Colors.black),
-            label: Text('Add Message',
-                style: buildMontserrat(context, Colors.black, FontWeight.bold,
-                    Theme.of(context).textTheme.headline6)),
-            onPressed: () {
-              showCustomMessageBottomSheet(context);
-            });
-      }
-
       if (customSuggestion.isNotEmpty && index == 1) {
         return ChoiceChip(
             elevation: 3,
@@ -62,13 +44,14 @@ class _ChipsWidgetState extends State<ChipsWidget> {
             padding: const EdgeInsets.all(4),
             labelPadding: const EdgeInsets.all(3),
             clipBehavior: Clip.antiAlias,
+            checkmarkColor: Colors.white,
             selectedColor: Colors.black,
             backgroundColor: Colors.white,
             labelStyle: buildMontserrat(
                 context,
                 _selectedIndex == index ? Colors.white : Colors.black,
-                FontWeight.normal,
-                Theme.of(context).textTheme.headline6),
+                FontWeight.w200,
+                Theme.of(context).textTheme.bodySmall),
             label: Text(customSuggestion),
             onSelected: (selected) {
               setState(() {
@@ -199,7 +182,7 @@ class _ChipsWidgetState extends State<ChipsWidget> {
 }
 
 void logSuggestionToAnalytics(String customMessage) async {
-  await FirebaseAnalytics.instance.logEvent(name: "custom_message_event", parameters: {
-    "custom_message": customMessage
-  });
+  // await FirebaseAnalytics.instance.logEvent(name: "custom_message_event", parameters: {
+  //   "custom_message": customMessage
+  // });
 }

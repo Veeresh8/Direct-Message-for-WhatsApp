@@ -5,7 +5,6 @@ import 'package:direct_message_for_whatsapp/dashboard_model.dart';
 import 'package:direct_message_for_whatsapp/number_input.dart';
 import 'package:direct_message_for_whatsapp/styles.dart';
 import 'package:direct_message_for_whatsapp/suggestion_chips.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -75,11 +74,11 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               Transform.translate(
-                offset: const Offset(40, 600),
+                offset: const Offset(54, 600),
                 child: ElevatedButton.icon(
                   style: buildPrimaryButton(),
                   icon: const Icon(Icons.send, color: Colors.white),
-                  label: Text('Open in WhatsApp',
+                  label: Text('Direct Message',
                       style: buildMontserrat(
                           context,
                           Colors.white,
@@ -91,12 +90,12 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               Transform.translate(
-                offset: const Offset(24, 250),
+                offset: const Offset(24, 280),
                 child: Column(
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width - 50,
-                      height: 250,
+                      height: 200,
                       child: Card(
                         elevation: 4,
                         color: Colors.white70,
@@ -116,10 +115,6 @@ class _DashboardState extends State<Dashboard> {
                                   const EdgeInsets.fromLTRB(32, 0, 16, 30),
                               child: const NumberInput(),
                             ),
-                            const SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: ChipsWidget(),
-                            )
                           ],
                         ),
                       ),
@@ -162,11 +157,11 @@ class _DashboardState extends State<Dashboard> {
       createAlertDialog(context, "Failed to send message");
     }
 
-    await FirebaseAnalytics.instance.logEvent(name: "message_event", parameters: {
-      "number": number,
-      "message": message,
-      "country": countryISO
-    });
+    // await FirebaseAnalytics.instance.logEvent(name: "message_event", parameters: {
+    //   "number": number,
+    //   "message": message,
+    //   "country": countryISO
+    // });
   }
 
   void createAlertDialog(BuildContext context, String message) {

@@ -1,12 +1,12 @@
-import 'package:country_codes/country_codes.dart';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_picker_dialog.dart';
 import 'package:country_pickers/utils/utils.dart';
 import 'package:direct_message_for_whatsapp/dashboard_model.dart';
-import 'package:direct_message_for_whatsapp/locale_config.dart';
+import 'package:direct_message_for_whatsapp/main.dart';
 import 'package:direct_message_for_whatsapp/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CountryPicker extends StatefulWidget {
   const CountryPicker({Key? key}) : super(key: key);
@@ -15,16 +15,37 @@ class CountryPicker extends StatefulWidget {
   _CountryPickerState createState() => _CountryPickerState();
 }
 
-class _CountryPickerState extends State<CountryPicker> {
+getStringValuesSF() async {
+  SharedPreferences prefs = SharedPreferencesManager.instance;
+  String? stringValue = prefs.getString('selected_country');
+  return stringValue;
+}
 
+addStringToSF(String value) async {
+  SharedPreferences prefs = SharedPreferencesManager.instance;
+  prefs.setString('selected_country', value);
+}
+
+class _CountryPickerState extends State<CountryPicker> {
   late Country _selectedCountry;
 
   @override
   void initState() {
     super.initState();
-    var dialCode = LocaleConfig.getLocale().dialCode?.replaceAll("+", "");
-    _selectedCountry = CountryPickerUtils.getCountryByPhoneCode(dialCode ?? "91");
-    Provider.of<DashboardModel>(context, listen: false).updateSelectedCountry(LocaleConfig.getLocale().dialCode ?? "91");
+    SharedPreferences prefs = SharedPreferencesManager.instance;
+    String? selectedCountry = prefs.getString('selected_country');
+
+    if (selectedCountry != null) {
+      _selectedCountry =
+          CountryPickerUtils.getCountryByIsoCode(selectedCountry);
+    } else {
+      _selectedCountry = CountryPickerUtils.getCountryByIsoCode("IN");
+    }
+
+    var countryByIsoCode = CountryPickerUtils.getCountryByIsoCode(_selectedCountry.isoCode);
+
+    Provider.of<DashboardModel>(context, listen: false)
+        .updateSelectedCountry(countryByIsoCode.phoneCode);
   }
 
   @override
@@ -56,6 +77,7 @@ class _CountryPickerState extends State<CountryPicker> {
                 if (mounted) {
                   setState(() {
                     _selectedCountry = country;
+                    addStringToSF(country.isoCode.replaceAll("+", ""));
                     Provider.of<DashboardModel>(context, listen: false)
                         .updateSelectedCountry(country.phoneCode);
                   });

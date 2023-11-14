@@ -49,6 +49,7 @@ android {
     }
 
     defaultConfig {
+        compileSdkVersion 33
         applicationId "com.parallel.studios.direct_message_for_whatsapp"
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
