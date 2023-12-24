@@ -37,6 +37,7 @@ dependencies:
   url_launcher: ^6.0.20
   provider: ^6.0.2
   country_codes: ^2.1.1
+  google_mobile_ads: ^4.0.0
   flutter_launcher_icons:
     git:
       url: https://github.com/Davenchy/flutter_launcher_icons.git

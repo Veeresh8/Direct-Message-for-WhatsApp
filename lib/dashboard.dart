@@ -1,10 +1,13 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:direct_message_for_whatsapp/country_picker.dart';
 import 'package:direct_message_for_whatsapp/dashboard_model.dart';
 import 'package:direct_message_for_whatsapp/number_input.dart';
 import 'package:direct_message_for_whatsapp/styles.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,6 +22,42 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   late DashboardModel? dashboardModel;
+  late BannerAd _bannerAd;
+  bool _isAdLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initBannerAd();
+  }
+
+  _initBannerAd() {
+    final adUnitId = Platform.isAndroid
+        ? 'ca-app-pub-2664611290118817/4695190804'
+        : 'ca-app-pub-3940256099942544/2934735716';
+
+    _bannerAd = BannerAd(
+        size: AdSize.banner,
+        adUnitId: adUnitId,
+        listener: BannerAdListener(
+            onAdLoaded: (ad) {
+              setState(() {
+                _isAdLoaded = true;
+              });
+            },
+            onAdFailedToLoad: (ad, error) {
+              MixpanelManager.instance.track("Ad load failed: $error");
+            },
+            onAdImpression: (ad) {
+              MixpanelManager.instance.track("Ad impression: $ad");
+            },
+            onAdClicked: (ad) {
+              MixpanelManager.instance.track("Ad clicked: $ad");
+            }
+        ),
+        request: const AdRequest());
+    _bannerAd.load();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +72,8 @@ class _DashboardState extends State<Dashboard> {
                 alignment: Alignment.topCenter,
                 child: Padding(
                   padding: EdgeInsets.all(60),
-                  child: Icon(Icons.double_arrow, color: Colors.black, size: 50),
+                  child:
+                      Icon(Icons.double_arrow, color: Colors.black, size: 50),
                 ),
               ),
               Transform.translate(
@@ -45,7 +85,7 @@ class _DashboardState extends State<Dashboard> {
                       style: buildMontserrat(
                           context,
                           Colors.black,
-                          FontWeight.normal,
+                          FontWeight.bold,
                           Theme.of(context).textTheme.headline6)),
                 ),
               ),
@@ -60,14 +100,17 @@ class _DashboardState extends State<Dashboard> {
                     child: Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        const Icon(Icons.play_circle_filled_sharp, color: Colors.black,),
+                        const Icon(
+                          Icons.play_circle_filled_sharp,
+                          color: Colors.black,
+                        ),
                         const SizedBox(width: 5),
                         Text('How it works?',
                             textAlign: TextAlign.center,
                             style: buildMontserratUnderline(
                                 context,
                                 Colors.black,
-                                FontWeight.bold,
+                                FontWeight.normal,
                                 Theme.of(context).textTheme.headline6)),
                       ],
                     ),
@@ -75,7 +118,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               Transform.translate(
-                offset: const Offset(54, 600),
+                offset: const Offset(54, 520),
                 child: ElevatedButton.icon(
                   style: buildPrimaryButton(),
                   icon: const Icon(Icons.send, color: Colors.white),
@@ -101,8 +144,8 @@ class _DashboardState extends State<Dashboard> {
                         elevation: 4,
                         color: Colors.white70,
                         shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                              color: Colors.black, width: 2.5),
+                          side:
+                              const BorderSide(color: Colors.black, width: 2.5),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Column(
@@ -112,8 +155,7 @@ class _DashboardState extends State<Dashboard> {
                                     const EdgeInsets.fromLTRB(16, 16, 16, 0),
                                 child: const CountryPicker()),
                             Container(
-                              margin:
-                                  const EdgeInsets.fromLTRB(32, 0, 16, 30),
+                              margin: const EdgeInsets.fromLTRB(32, 0, 16, 30),
                               child: const NumberInput(),
                             ),
                           ],
@@ -122,6 +164,18 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ],
                 ),
+              ),
+              Positioned(
+                bottom: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: _isAdLoaded
+                    ? SizedBox(
+                        height: _bannerAd.size.height.toDouble(),
+                        width: _bannerAd.size.width.toDouble(),
+                        child: AdWidget(ad: _bannerAd),
+                      )
+                    : const SizedBox(),
               ),
               Consumer<DashboardModel>(
                 builder: (context, model, child) {
@@ -142,7 +196,7 @@ class _DashboardState extends State<Dashboard> {
     var countryISO = dashboardModel?.selectedCountryISO;
 
     if (number?.isEmpty == true) {
-      createAlertDialog(context, "Phone number cannot be empty.");
+      createAlertDialog(context, "Number cannot be empty");
       return;
     }
 
@@ -159,7 +213,6 @@ class _DashboardState extends State<Dashboard> {
     }
 
     MixpanelManager.instance.track("Opened WhatsApp: $number");
-
   }
 
   void createAlertDialog(BuildContext context, String message) {
@@ -200,8 +253,8 @@ class _DashboardState extends State<Dashboard> {
   void launchHelp() async {
     MixpanelManager.instance.track("Opened help hint");
 
-    if (!await launch("https://www.youtube.com/watch?v=j3HiVidc5IQ")) {
-        createAlertDialog(context, "Failed to open app help hint!");
+    if (!await launch("https://www.youtube.com/watch?v=-diZAn3_KvU")) {
+      createAlertDialog(context, "Failed to open app help hint!");
     }
   }
 }
