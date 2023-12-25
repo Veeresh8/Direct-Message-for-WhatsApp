@@ -33,7 +33,7 @@ class _DashboardState extends State<Dashboard> {
 
   _initBannerAd() {
     final adUnitId = Platform.isAndroid
-        ? 'ca-app-pub-2664611290118817/4695190804'
+        ? 'ca-app-pub-2664611290118817/4695190804' //real ad-unit for Android
         : 'ca-app-pub-3940256099942544/2934735716';
 
     _bannerAd = BannerAd(
@@ -66,117 +66,100 @@ class _DashboardState extends State<Dashboard> {
       home: SafeArea(
         child: Container(
           color: Colors.white,
-          child: Stack(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: EdgeInsets.all(60),
-                  child:
-                      Icon(Icons.double_arrow, color: Colors.black, size: 50),
-                ),
+              const Padding(
+                padding: EdgeInsets.all(16),
+                child: Icon(Icons.double_arrow, color: Colors.black, size: 50),
               ),
-              Transform.translate(
-                offset: const Offset(0, 100),
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Text('Start WhatsApp chat without saving new contact.',
-                      textAlign: TextAlign.center,
-                      style: buildMontserrat(
-                          context,
-                          Colors.black,
-                          FontWeight.bold,
-                          Theme.of(context).textTheme.headline6)),
-                ),
-              ),
-              Transform.translate(
-                offset: const Offset(80, 180),
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: GestureDetector(
-                    onTap: () {
-                      launchHelp();
-                    },
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.play_circle_filled_sharp,
-                          color: Colors.black,
-                        ),
-                        const SizedBox(width: 5),
-                        Text('How it works?',
-                            textAlign: TextAlign.center,
-                            style: buildMontserratUnderline(
-                                context,
-                                Colors.black,
-                                FontWeight.normal,
-                                Theme.of(context).textTheme.headline6)),
-                      ],
-                    ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  'Start WhatsApp chat without saving new contact.',
+                  textAlign: TextAlign.center,
+                  style: buildMontserrat(
+                    context,
+                    Colors.black,
+                    FontWeight.bold,
+                    Theme.of(context).textTheme.headline6,
                   ),
                 ),
               ),
-              Transform.translate(
-                offset: const Offset(54, 520),
-                child: ElevatedButton.icon(
-                  style: buildPrimaryButton(),
-                  icon: const Icon(Icons.send, color: Colors.white),
-                  label: Text('Direct Message',
-                      style: buildMontserrat(
-                          context,
-                          Colors.white,
-                          FontWeight.bold,
-                          Theme.of(context).textTheme.headline6)),
-                  onPressed: () {
-                    _launchWithNumber(context);
+              Padding(
+                padding: const EdgeInsets.all(4),
+                child: GestureDetector(
+                  onTap: () {
+                    launchHelp();
                   },
-                ),
-              ),
-              Transform.translate(
-                offset: const Offset(24, 280),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width - 50,
-                      height: 200,
-                      child: Card(
-                        elevation: 4,
-                        color: Colors.white70,
-                        shape: RoundedRectangleBorder(
-                          side:
-                              const BorderSide(color: Colors.black, width: 2.5),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Column(
-                          children: [
-                            Container(
-                                margin:
-                                    const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                                child: const CountryPicker()),
-                            Container(
-                              margin: const EdgeInsets.fromLTRB(32, 0, 16, 30),
-                              child: const NumberInput(),
-                            ),
-                          ],
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      const Icon(Icons.play_circle_filled_sharp, color: Colors.black),
+                      const SizedBox(width: 5),
+                      Text(
+                        'How it works?',
+                        textAlign: TextAlign.center,
+                        style: buildMontserratUnderline(
+                          context,
+                          Colors.black,
+                          FontWeight.normal,
+                          Theme.of(context).textTheme.headline6,
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              Positioned(
-                bottom: 0.0,
-                left: 0.0,
-                right: 0.0,
-                child: _isAdLoaded
-                    ? SizedBox(
-                        height: _bannerAd.size.height.toDouble(),
-                        width: _bannerAd.size.width.toDouble(),
-                        child: AdWidget(ad: _bannerAd),
-                      )
-                    : const SizedBox(),
+              const SizedBox(height: 64),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 50,
+                height: 200,
+                child: Card(
+                  elevation: 4,
+                  color: Colors.white70,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.black, width: 2.5),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                        child: CountryPicker(),
+                      ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(32, 0, 16, 30),
+                        child: NumberInput(),
+                      ),
+                    ],
+                  ),
+                ),
               ),
+              const SizedBox(height: 32),
+              ElevatedButton.icon(
+                style: buildPrimaryButton(),
+                icon: const Icon(Icons.send, color: Colors.white),
+                label: Text(
+                  'Direct Message',
+                  style: buildMontserrat(
+                    context,
+                    Colors.white,
+                    FontWeight.bold,
+                    Theme.of(context).textTheme.headline6,
+                  ),
+                ),
+                onPressed: () {
+                  _launchWithNumber(context);
+                },
+              ),
+              const Spacer(),
+              if (_isAdLoaded)
+                SizedBox(
+                  height: _bannerAd.size.height.toDouble(),
+                  width: _bannerAd.size.width.toDouble(),
+                  child: AdWidget(ad: _bannerAd),
+                ),
               Consumer<DashboardModel>(
                 builder: (context, model, child) {
                   dashboardModel = model;
@@ -253,7 +236,7 @@ class _DashboardState extends State<Dashboard> {
   void launchHelp() async {
     MixpanelManager.instance.track("Opened help hint");
 
-    if (!await launch("https://www.youtube.com/watch?v=-diZAn3_KvU")) {
+    if (!await launch("https://www.youtube.com/shorts/-diZAn3_KvU")) {
       createAlertDialog(context, "Failed to open app help hint!");
     }
   }

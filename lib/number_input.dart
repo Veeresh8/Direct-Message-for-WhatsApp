@@ -30,6 +30,10 @@ class _NumberInputState extends State<NumberInput> {
                 });
               }
 
+              if (numberController.text.length == 10) {
+                FocusScope.of(context).unfocus();
+              }
+
               Provider.of<DashboardModel>(context, listen: false).updateNumber(numberController.text);
             },
             controller: numberController,
