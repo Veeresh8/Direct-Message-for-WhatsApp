@@ -34,7 +34,7 @@ class _DashboardState extends State<Dashboard> {
   _initBannerAd() {
     final adUnitId = Platform.isAndroid
         ? 'ca-app-pub-2664611290118817/4695190804' //real ad-unit for Android
-        : 'ca-app-pub-3940256099942544/2934735716';
+        : 'ca-app-pub-2664611290118817/8459175997'; //real ad-unit for iOS
 
     _bannerAd = BannerAd(
         size: AdSize.banner,
